@@ -1,0 +1,570 @@
+직업 참고용 정 안 되면 요걸루 해보셔여 
+그 이 코드 상으론 
+제 생각엔 public class Character랑 
+직업에 선언된 Character player랑 다른 걸로 인식하는 거 같아요 
+클래스들로 해둬서 그런가.. 
+
+using System.Numerics;
+using System.Xml.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        private static Character player;
+        static Item[] items;
+
+        public static void Main(string[] args)
+        {
+            ChooseClass();
+            GameDataSetting();
+            DisplayStart();
+             
+            DisplayGameIntro(); 
+            End(); //실행 안 돼서 뭔가 했더니 앞에 대문자 필수군.. 
+
+            
+             while (true)
+             {
+                 ClassType type = ChooseClass();
+                    // Character player; //다른 지역변수네..
+                     CreatePlayer(type, out Character player);         
+             }
+        
+        }
+
+     
+        public enum ClassType
+        {
+            None = 0, 
+            Warrior = 1,
+            Archer = 2, 
+            Mage = 3, 
+        }
+
+        public static ClassType ChooseClass()
+        {
+            ClassType type = ClassType.None;
+
+            while (true)
+            {
+                Console.WriteLine("직업선택 1전사 2궁수 3마법사");
+
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1": 
+                         type = ClassType.Warrior;
+                        Console.WriteLine("전사선택");
+                        break;
+                    case "2": 
+                         type = ClassType.Archer;
+                        Console.WriteLine("아처선택");
+                        break;
+                    case "3": 
+                         type = ClassType.Mage;
+                        Console.WriteLine("마법사선택");
+                        break;
+                }return type;
+
+            }  
+        }
+ 
+        private static void DisplayStart()
+        {
+            Console.WriteLine(" ________      ___  ___      ________      _______       ________      ________      ________           ________      ________      ___      ___  _______       ________       _________    ___  ___      ________      _______      ");
+            Console.WriteLine("|\\   ___ \\    |\\  \\|\\  \\    |\\   ____\\    |\\  ___ \\     |\\   __  \\    |\\   __  \\    |\\   ___  \\        |\\   __  \\    |\\   ___ \\    |\\  \\    /  /||\\  ___ \\     |\\   ___  \\    |\\___   ___\\ |\\  \\|\\  \\    |\\   __  \\    |\\  ___ \\     ");
+            Console.WriteLine("\\ \\  \\_|\\ \\   \\ \\  \\\\\\  \\   \\ \\  \\___|    \\ \\   __/|    \\ \\  \\|\\  \\   \\ \\  \\|\\  \\   \\ \\  \\\\ \\  \\       \\ \\  \\|\\  \\   \\ \\  \\_|\\ \\   \\ \\  \\  /  / /\\ \\   __/|    \\ \\  \\\\ \\  \\   \\|___ \\  \\_| \\ \\  \\\\\\  \\   \\ \\  \\|\\  \\   \\ \\   __/|    ");
+            Console.WriteLine(" \\ \\  \\ \\\\ \\   \\ \\  \\\\\\  \\   \\ \\  \\  ___   \\ \\  \\_|/__   \\ \\   __  \\   \\ \\  \\\\\\  \\   \\ \\  \\\\ \\  \\       \\ \\   __  \\   \\ \\  \\ \\\\ \\   \\ \\  \\/  / /  \\ \\  \\_|/__   \\ \\  \\\\ \\  \\       \\ \\  \\   \\ \\  \\\\\\  \\   \\ \\   _  _\\   \\ \\  \\_|/__  ");
+            Console.WriteLine("  \\ \\  \\_\\\\ \\   \\ \\  \\\\\\  \\   \\ \\  \\|\\  \\   \\ \\  \\_|\\ \\   \\ \\  \\ \\  \\   \\ \\  \\\\\\  \\   \\ \\  \\\\ \\  \\       \\ \\  \\ \\  \\   \\ \\  \\_\\\\ \\   \\ \\    / /    \\ \\  \\_|\\ \\   \\ \\  \\\\ \\  \\       \\ \\  \\   \\ \\  \\\\\\  \\   \\ \\  \\\\  \\|   \\ \\  \\_|\\ \\ ");
+            Console.WriteLine("   \\ \\_______\\   \\ \\_______\\   \\ \\_______\\   \\ \\_______\\   \\ \\__\\ \\__\\   \\ \\_______\\   \\ \\__\\\\ \\__\\       \\ \\__\\ \\__\\   \\ \\_______\\   \\ \\__/ /      \\ \\_______\\   \\ \\__\\\\ \\__\\       \\ \\__\\   \\ \\_______\\   \\ \\__\\\\ _\\    \\ \\_______\\");
+            Console.WriteLine("   \\|_______|    \\|_______|    \\|_______|    \\|_______|    \\|__|\\|__|    \\|_______|    \\|__| \\|__|        \\|__|\\|__|    \\|_______|    \\|__|/        \\|_______|    \\|__| \\|__|        \\|__|    \\|_______|    \\|__|\\|__|    \\|_______|");
+            Console.WriteLine("=========================================================================================================================================================================================================================================================");
+            Console.WriteLine("                                                                                                               PRESS ANYKEY TO START                                                                                                                     ");
+            Console.WriteLine("=========================================================================================================================================================================================================================================================");
+            Console.ReadKey();
+        }
+
+        public static void CreatePlayer(ClassType type, out Character player)
+        {
+            player = new Character("Frost", "0", 0, 0, 0, 0, 0, 0);
+
+            switch (type)
+            {
+                case ClassType.Warrior:
+                    player = new Character("Frost", "전사", 1, 20, 5, 500, 200, 5000);
+                    break;
+                case ClassType.Archer:
+                    player = new Character("Frost", "아처", 1, 20, 5, 500, 200, 5000);
+                    break;
+                case ClassType.Mage:
+                    player = new Character("Frost", "마법사", 1, 20, 5, 500, 200, 5000);
+                    break;
+            }
+        }
+
+        static void GameDataSetting() 
+        {
+
+            //player = new Character("Frost", "마법사", 1, 20, 5, 500, 200, 5000);
+
+            items = new Item[10];
+            AddItem(new Item("초급 마법사의 로브", "마법학교에서 지급하는 로브다.", 0, 0, 5, 0, 50));
+            AddItem(new Item("초급 마법사의 스태프", "마법학교에서 지급하는 스태프다.", 1, 10, 0, 0, 50));
+
+
+        }
+        static void AddItem(Item item)
+        {
+            if (Item.ItemCnt == 10) return;
+            items[Item.ItemCnt] = item;
+            Item.ItemCnt++;
+        } 
+
+        static void DisplayGameIntro()
+        {
+            Console.Clear();
+
+            Console.WriteLine("초보던전 입구마을에 오신" + (player.Name) + "님 환영합니다.");
+            Console.WriteLine("이곳에서 던전으로 들어가기 전에 점검을 할 수 있습니다.");
+            Console.WriteLine();
+            Console.WriteLine("1. 상태보기");
+            Console.WriteLine("2. 인벤토리");
+            Console.WriteLine("3. 던전입장");
+            Console.WriteLine();
+            Console.WriteLine("원하시는 행동을 입력해주세요.");
+
+            int input = CheckValidInput(1, 3);
+            switch (input)
+            {
+                case 1:
+                    DisplayMyInfo();
+                    break;
+
+                case 2:
+                    Inventory();
+                    break;
+                case 3:
+                    Dungeon(player);
+                    break;
+            }
+        }
+
+
+
+        static void DisplayMyInfo()
+        {
+            Console.Clear();
+
+            ShowHighlightText("상태보기");
+            Console.WriteLine("캐릭터의 정보를 표시합니다.");
+            Console.WriteLine();
+            PrintTextWithHighlights($"Lv.", player.Level.ToString("00"));
+            Console.WriteLine($"{player.Name}({player.Job})");
+
+            int bonusAtk = getSumBonusAtk();
+            int bonusDef = getSumBonusDef();
+            int bonusHp = getSumBonusHp();
+            int bonusMp = getSumBonusMp();
+
+            PrintTextWithHighlights($"Atk :", (player.Atk + bonusAtk).ToString(), bonusAtk > 0 ? string.Format("(+{0})", bonusAtk) : "");
+            PrintTextWithHighlights($"Def :", (player.Def + bonusDef).ToString(), bonusDef > 0 ? string.Format("(+{0})", bonusDef) : "");
+            PrintTextWithHighlights($"Hp :", (player.Hp + bonusHp).ToString(), bonusHp > 0 ? string.Format("(+{0})", bonusHp) : "");
+            PrintTextWithHighlights($"Mp :", (player.Mp + bonusMp).ToString(), bonusMp > 0 ? string.Format("(+{0})", bonusMp) : "");
+     
+            Console.WriteLine($"Gold : {player.Gold} G");
+            Console.WriteLine();
+            Console.WriteLine("0. 나가기");
+
+            int input = CheckValidInput(0, 0);
+            switch (input)
+            {
+                case 0:
+                    DisplayGameIntro();
+                    break;
+            }
+        }
+        private static int getSumBonusAtk()
+        {
+            int sum = 0;
+            for (int i = 0; i < Item.ItemCnt; i++)
+            {
+                if (items[i].IsEquipped) sum += items[i].Atk;
+            }
+            return sum;
+        }
+        private static int getSumBonusDef()
+        {
+            int sum = 0;
+            for (int i = 0; i < Item.ItemCnt; i++)
+            {
+                if (items[i].IsEquipped) sum += items[i].Def;
+            }
+            return sum;
+        }
+        private static int getSumBonusHp()
+        {
+            int sum = 0;
+            for (int i = 0; i < Item.ItemCnt; i++)
+            {
+                if (items[i].IsEquipped) sum += items[i].Hp;
+            }
+            return sum;
+        }
+        private static int getSumBonusMp()
+        {
+            int sum = 0;
+            for (int i = 0; i < Item.ItemCnt; i++)
+            {
+                if (items[i].IsEquipped) sum += items[i].Mp;
+            }
+            return sum;
+        }
+
+        static void Inventory()
+        {
+            Console.Clear();
+
+            ShowHighlightText("인벤토리");
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
+            Console.WriteLine();
+            Console.WriteLine("[아이템 목록]");
+            Console.WriteLine();
+            for (int i = 0; i < Item.ItemCnt; i++)
+            {
+                items[i].PrintItemDescription();
+            }
+            Console.WriteLine();
+            Console.WriteLine("0. 나가기");
+            Console.WriteLine("1. 장착관리");
+
+            int input = CheckValidInput(0, 1);
+            switch (input)
+            {
+                case 0:
+                    DisplayGameIntro();
+                    break;
+                case 1:
+                    EquipMenu();
+                    break;
+            }
+        }
+
+        private static void EquipMenu()
+        {
+            Console.Clear();
+
+            ShowHighlightText("인벤토리 - 장착관리");
+            Console.WriteLine("보유중인 아이템을 장착하거나 해제할수 있습니다.");
+            Console.WriteLine();
+            Console.WriteLine("[아이템 목록]");
+            for (int i = 0; i < Item.ItemCnt; i++)
+            {
+                items[i].PrintItemDescription(true, i + 1);
+            }
+            Console.WriteLine();
+            Console.WriteLine("0.나가기");
+            int keyinput = CheckValidInput(0, Item.ItemCnt);
+            switch (keyinput)
+            {
+                case 0:
+                    Inventory();
+                    break;
+                default:
+                    ToggleEqupStatus(keyinput - 1);
+                    EquipMenu();
+                    break;
+            }
+        }
+
+
+        private static void ToggleEqupStatus(int idx)
+        {
+            items[idx].IsEquipped = !items[idx].IsEquipped;
+        }
+
+        private static void ShowHighlightText(string text)
+        {
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine(text);
+            Console.ResetColor();
+        }
+        private static void PrintTextWithHighlights(string s1, string s2, string s3 = "")
+        {
+            Console.Write(s1);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write(s2);
+            Console.ResetColor();
+            Console.WriteLine(s3);
+        }
+
+        enum MonsterType //몬스터 종류 
+        {
+            greenslime = 0,
+            redslime = 1,
+            blueslime = 2,
+        }
+
+        public struct Monster //몬스터세팅  
+        {
+            public int hp;
+            public int attack;
+        }
+
+        public static void RandomMonster(out Monster monster) //out 어캐 쓰는 거야
+        {   //랜덤몬스터 
+            Random random = new Random();
+            int Rmonster = random.Next(0, 2);
+
+            monster = new Monster(); //?? 
+
+            switch (Rmonster)
+            {
+                case (int)MonsterType.greenslime:
+                    Console.WriteLine("그린슬라임 등장");
+                    monster.hp = 200;
+                    monster.attack = 5;
+                    string skilleGreen = "그린 박치기!"; 
+                    break;
+                case (int)MonsterType.redslime:
+                    Console.WriteLine("레드슬라임 등장");
+                    monster.hp = 250;
+                    monster.attack = 7;
+                    string skilleRed = "레드 파이어붐!";
+                    break;
+                case (int)MonsterType.blueslime:
+                    Console.WriteLine("블루슬라임 등장");
+                    monster.hp = 300;
+                    monster.attack = 8;
+                    string skilleBlue = "블루 물대포!";
+                    break;
+            }
+        }
+
+        static void Dungeon(Character player) //던전씬 
+        {
+            while (true)
+            {
+        
+                Monster monster;
+                Console.WriteLine("사냥터 입장 완료!");
+                RandomMonster(out monster);
+
+                Console.WriteLine("[1] 싸우기");
+                Console.WriteLine("[2] 도망가기");
+
+              
+
+
+                string input = Console.ReadLine();
+
+               
+                if (input == "1")
+                {
+                    Fight(player, monster);
+                }
+                else if (input == "2")
+                {
+                    //도망 
+                    Random rand = new Random();
+                    int Rmonster = rand.Next(0, 100);
+
+                    if (Rmonster < 33)
+                    {
+                        Console.WriteLine("성공적으로 도망쳤어요");
+                        Dungeon(player);
+                    }
+                    else
+                    {
+                        Fight(player, monster);
+                    }
+                    break;
+                }
+             
+            }
+
+        }
+
+        static void Fight(Character player, Monster monster)
+        { //ref가 뭔지 알아봐야 할 듯 
+            while (true)
+            {
+                monster.hp -= player.Atk;
+                player.Hp -= monster.attack;
+
+
+                if (monster.hp <= 0)
+                {
+                    Console.WriteLine("클리어");
+                    End();
+                    break; 
+                }
+                else if (player.Hp <= 0)
+                {
+                    Console.WriteLine("죽어버렸숨다");
+                    End();
+                    break; 
+                }
+                else if (player.Hp != 0) 
+                {
+                        Console.Clear(); //전 글자 기록들 지워주는 청소도구! 
+                        Console.WriteLine("다음 선택은?");
+
+                        Console.WriteLine($"몬스터의 HP 상태: {monster.hp}");
+                        Console.WriteLine($"플레이어의 HP 상태: {player.Hp}");
+                        Console.WriteLine("[1] 싸우기");
+                        Console.WriteLine("[2] 도망가기");
+
+                    
+
+                    string input = Console.ReadLine();
+
+                    if (monster.hp <= 0)
+                    {
+                        End();
+                        break;
+                    }
+                    else if (input == "2")
+                    {
+                        //도망 
+                        Random rand = new Random();
+                        int Rmonster = rand.Next(0, 100);
+
+                        if (Rmonster < 33)
+                        {
+                            Console.WriteLine("성공적으로 도망쳤어요");
+                            Dungeon(player);
+                        }
+                        else
+                        {
+                            Fight(player, monster);
+                        }
+
+                        break;
+                    }
+                }
+
+            }
+
+        }
+
+
+        static void End() //어쨌든 클리어씬! 
+        {
+            Console.Clear(); 
+
+            Console.WriteLine("전투에서 승리하였습니다");
+            Console.WriteLine("돌아가려면 0번");
+
+            string input = Console.ReadLine();
+            if (input == "0")
+            {
+                DisplayGameIntro(); 
+            }
+          
+        }
+
+        static int CheckValidInput(int min, int max)
+        {
+            while (true)
+            {
+                string input = Console.ReadLine();
+
+                bool parseSuccess = int.TryParse(input, out var ret);
+                if (parseSuccess)
+                {
+                    if (ret >= min && ret <= max)
+                        return ret;
+                }
+
+                Console.WriteLine("잘못된 입력입니다.");
+            }
+        }
+    }
+
+
+
+    public class Character
+    {
+        public string Name { get; set; }
+        public string Job { get; set; }
+        public int Level { get; set; }
+        public int Atk { get; set; }
+        public int Def { get; set; }
+        public int Hp { get; set; }
+        public int Mp { get; set; }
+        public int Gold { get; set; }
+        public int hp { get; internal set; }
+
+        public Character(string name, string job, int level, int atk, int def, int hp, int mp, int gold)
+        {
+            Name = name;
+            Job = job;
+            Level = level;
+            Atk = atk;
+            Def = def;
+            Hp = hp;
+            Mp = mp;
+            Gold = gold;
+        }
+
+
+    }
+    public class Item
+    {
+        public string ItemName { get; }
+        public string Description { get; }
+        public int Type { get; }
+        public int Atk { get; }
+        public int Def { get; }
+        public int Hp { get; }
+        public int Mp { get; }
+        public bool IsEquipped { get; set; }
+        public static int ItemCnt = 0;
+
+        public Item(string itemName, string description, int type, int atk, int def, int hp, int mp, bool isEquipped = false)
+        {
+            ItemName = itemName;
+            Description = description;
+            Type = type;
+            Atk = atk;
+            Def = def;
+            Hp = hp;
+            Mp = mp;
+            IsEquipped = isEquipped;
+        }
+
+        public void PrintItemDescription(bool withNumber = false, int idx = 0)
+        {
+            Console.Write("-");
+            if (withNumber)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.Write("{0}", idx);
+                Console.ResetColor();
+            }
+            if (IsEquipped)
+            {
+                Console.Write("[");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write("E");
+                Console.ResetColor();
+                Console.Write("]");
+            }
+            Console.Write(ItemName);
+            Console.Write("|");
+
+            if (Atk != 0) Console.Write($" Atk {(Atk >= 0 ? "+" : "")}{Atk}");
+            if (Def != 0) Console.Write($" Def {(Def >= 0 ? "+" : "")}{Def}");
+            if (Hp != 0) Console.Write($" Hp {(Hp >= 0 ? "+" : "")}{Hp}");
+            if (Mp != 0) Console.Write($" Mp {(Mp >= 0 ? "+" : "")}{Mp}");
+
+            Console.Write('|');
+
+            Console.WriteLine(Description);
+        }
+
+    }
+
+}
