@@ -1,4 +1,4 @@
-잠시 미리 저장 2023.11.20 
+싸움 공격 서로의 HP 표시 공격 도망가기 재현!! 
 
 using System.Xml.Linq;
 
@@ -99,7 +99,7 @@ namespace ConsoleApp1
             PrintTextWithHighlights($"Def :", (player.Def + bonusDef).ToString(), bonusDef > 0 ? string.Format("(+{0})", bonusDef) : "");
             PrintTextWithHighlights($"Hp :", (player.Hp + bonusHp).ToString(), bonusHp > 0 ? string.Format("(+{0})", bonusHp) : "");
             PrintTextWithHighlights($"Mp :", (player.Mp + bonusMp).ToString(), bonusMp > 0 ? string.Format("(+{0})", bonusMp) : "");
-     
+
             Console.WriteLine($"Gold : {player.Gold} G");
             Console.WriteLine();
             Console.WriteLine("0. 나가기");
@@ -252,7 +252,7 @@ namespace ConsoleApp1
                     Console.WriteLine("그린슬라임 등장");
                     monster.hp = 200;
                     monster.attack = 5;
-                    string skilleGreen = "그린 박치기!"; 
+                    string skilleGreen = "그린 박치기!";
                     break;
                 case (int)MonsterType.redslime:
                     Console.WriteLine("레드슬라임 등장");
@@ -273,7 +273,7 @@ namespace ConsoleApp1
         {
             while (true)
             {
-        
+
                 Monster monster;
                 Console.WriteLine("사냥터 입장 완료!");
                 RandomMonster(out monster);
@@ -281,12 +281,12 @@ namespace ConsoleApp1
                 Console.WriteLine("[1] 싸우기");
                 Console.WriteLine("[2] 도망가기");
 
-              
+
 
 
                 string input = Console.ReadLine();
 
-               
+
                 if (input == "1")
                 {
                     Fight(player, monster);
@@ -308,7 +308,7 @@ namespace ConsoleApp1
                     }
                     break;
                 }
-             
+
             }
 
         }
@@ -325,25 +325,37 @@ namespace ConsoleApp1
                 {
                     Console.WriteLine("클리어");
                     End();
-                    break; 
+                    break;
                 }
                 else if (player.Hp <= 0)
                 {
                     Console.WriteLine("죽어버렸숨다");
                     End();
-                    break; 
+                    break;
                 }
-                else if (player.Hp != 0) 
+                else if (player.Hp != 0)
                 {
-                        Console.Clear(); //전 글자 기록들 지워주는 청소도구! 
-                        Console.WriteLine("다음 선택은?");
+                    Console.Clear(); //전 글자 기록들 지워주는 청소도구! 
+                    Console.WriteLine("다음 선택은?");
+                    Console.WriteLine("[1] 싸우기");
+                    Console.WriteLine("[2] 도망가기");
 
-                        Console.WriteLine($"몬스터의 HP 상태: {monster.hp}");
-                        Console.WriteLine($"플레이어의 HP 상태: {player.Hp}");
-                        Console.WriteLine("[1] 싸우기");
-                        Console.WriteLine("[2] 도망가기");
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine("공격을 했다!\n아무키를 입력하세요");
+                    Console.WriteLine($"몬스터의 HP 상태: {monster.hp}");
 
-                    
+                    Console.ReadKey();
+                    Console.Clear();
+                    Console.WriteLine("공격을 당했다");
+                    Console.WriteLine($"플레이어의 HP 상태: {player.Hp}");
+                     
+
+                    Console.WriteLine("[1] 싸우기");
+                    Console.WriteLine("[2] 도망가기");
+
+                   
+
 
                     string input = Console.ReadLine();
 
@@ -379,7 +391,7 @@ namespace ConsoleApp1
 
         static void End() //어쨌든 클리어씬! 
         {
-            Console.Clear(); 
+            Console.Clear();
 
             Console.WriteLine("전투에서 승리하였습니다");
             Console.WriteLine("돌아가려면 0번");
@@ -387,9 +399,9 @@ namespace ConsoleApp1
             string input = Console.ReadLine();
             if (input == "0")
             {
-                DisplayGameIntro(); 
+                DisplayGameIntro();
             }
-          
+
         }
 
         static int CheckValidInput(int min, int max)
